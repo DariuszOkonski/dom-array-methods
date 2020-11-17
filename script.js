@@ -12,17 +12,22 @@ getRandomUser();
 
 // fetch random user and add money
 async function getRandomUser() {
-    const res = await fetch('https://randomuser.me/api');
-    const data = await res.json();
+    try {
+        const res = await fetch('https://randomuser.me/api');
+        const data = await res.json();
+        
+        const user = data.results[0];
+        
+        const newUser = {
+            name: `${user.name.first} ${user.name.last}`,
+            money: Math.floor(Math.random() * 1000000)
+        }
     
-    const user = data.results[0];
-    
-    const newUser = {
-        name: `${user.name.first} ${user.name.last}`,
-        money: Math.floor(Math.random() * 1000000)
+        addData(newUser)        
+    } catch (error) {
+        console.log('No internet connection...');
     }
-
-    addData(newUser)
+    
 }
 
 // double everyones money
